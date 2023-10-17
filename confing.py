@@ -1,0 +1,2 @@
+USER = 'admin'
+PASSWORD ='ngLT2lHT4LODBwrY'
