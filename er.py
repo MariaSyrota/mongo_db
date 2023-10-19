@@ -1,10 +1,11 @@
-from pymongo import database
+
 import pymongo
 import certifi
 from confing import USER, PASSWORD
 
 url = f'mongodb+srv://{USER}:{PASSWORD}@cluster0.jhmpvi4.mongodb.net/?retryWrites=true&w=majority'
 client = pymongo.MongoClient(url, tlsCAFile=certifi.where())
+database = client.library
 fantasy_books = database.books
 school_books = database.school_books
 
@@ -47,7 +48,7 @@ school_books.insert_many([
     }
 ])
 fantasy_books.update_one({"title": "Гра престолів"}, {"$inc": {"price": 56}})
-history_book = school_books.find_one({"title": {"$regex": "історія", "$options": "i"}})
+history_book = school_books.find_one({"title": {"$regex": "Історія України"}})
 print(history_book)
 fantasy_books.delete_one({"title": "Гра престолів"})
 school_books.delete_many({"year": {"$lt": 2020}})
