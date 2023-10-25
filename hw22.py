@@ -3,15 +3,15 @@ import sqlite3
 with sqlite3.connect('example.db') as conn:
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS books
-                      (name TEXT, pages INTEGER, price REAL)''')
+                      (name TEXT, pages INTEGER CHECK(pages > 0), price REAL CHECK(price > 0))''')
     book = ('Book 1', 200, 150.0)
-    cursor.execute("INSERT INTO books VALUES (?, ?, ?)", book)
+    cursor.execute("INSERT INTO books (name, pages, price) VALUES (?, ?, ?)", book)
     books = [
         ('Book 2', 300, 120.0),
         ('Book 3', 150, 90.0),
         ('Book 4', 250, 200.0),
     ]
-    cursor.executemany("INSERT INTO books VALUES (?, ?, ?)", books)
+    cursor.executemany("INSERT INTO books (name, pages, price) VALUES (?, ?, ?)", books)
     cursor.execute("SELECT * FROM books WHERE price > 100.0")
     expensive_books = cursor.fetchall()
     print("Expensive books:")
